@@ -432,24 +432,34 @@
         });
     });
     </script>
-  <!-- Nhúng player từ SoundCloud -->
-<iframe id="sc-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+<!-- Nhúng player ẩn -->
+<iframe id="sc-player" style="display: none;" allow="autoplay"
     src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/w3hz-g3ui-ykg3-dem7-icli/mai-ta-xa-roi-nhau-remix">
 </iframe>
 
+<!-- SoundCloud API -->
 <script src="https://w.soundcloud.com/player/api.js"></script>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const iframe = document.getElementById("sc-player");
-        const widget = SC.Widget(iframe);
+document.addEventListener("DOMContentLoaded", function () {
+    const iframe = document.getElementById("sc-player");
+    const widget = SC.Widget(iframe);
 
-        function enablePlay() {
-            widget.play();
-            document.removeEventListener("click", enablePlay);
-        }
+    // Tự phát nhạc khi user tương tác bất kỳ
+    const enablePlay = () => {
+        widget.play();
+        window.removeEventListener("click", enablePlay);
+        window.removeEventListener("touchstart", enablePlay);
+        window.removeEventListener("scroll", enablePlay);
+        window.removeEventListener("keydown", enablePlay);
+    };
 
-        document.addEventListener("click", enablePlay);
-    });
+    // Lắng nghe nhiều loại tương tác
+    window.addEventListener("click", enablePlay);
+    window.addEventListener("touchstart", enablePlay); // điện thoại
+    window.addEventListener("scroll", enablePlay);
+    window.addEventListener("keydown", enablePlay); // bấm phím
+});
 </script>
 </body>
 </html>
