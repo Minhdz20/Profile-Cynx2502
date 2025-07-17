@@ -432,8 +432,10 @@
         });
     });
     </script>
-<!-- Nhúng player ẩn -->
-<iframe id="sc-player" style="display: none;" allow="autoplay"
+<!-- Nhúng player "ẩn hợp lệ" -->
+<iframe id="sc-player"
+    style="position: absolute; width: 1px; height: 1px; top: -9999px; left: -9999px; visibility: hidden;"
+    allow="autoplay"
     src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/w3hz-g3ui-ykg3-dem7-icli/mai-ta-xa-roi-nhau-remix">
 </iframe>
 
@@ -445,20 +447,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const iframe = document.getElementById("sc-player");
     const widget = SC.Widget(iframe);
 
-    // Tự phát nhạc khi user tương tác bất kỳ
+    // Đã phát chưa?
+    let played = false;
+
     const enablePlay = () => {
-        widget.play();
-        window.removeEventListener("click", enablePlay);
-        window.removeEventListener("touchstart", enablePlay);
-        window.removeEventListener("scroll", enablePlay);
-        window.removeEventListener("keydown", enablePlay);
+        if (!played) {
+            widget.play();
+            played = true;
+            console.log("🎶 Đã phát nhạc SoundCloud");
+        }
     };
 
-    // Lắng nghe nhiều loại tương tác
-    window.addEventListener("click", enablePlay);
-    window.addEventListener("touchstart", enablePlay); // điện thoại
-    window.addEventListener("scroll", enablePlay);
-    window.addEventListener("keydown", enablePlay); // bấm phím
+    // Lắng nghe nhiều loại tương tác để phát nhạc
+    ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'].forEach(eventType => {
+        window.addEventListener(eventType, enablePlay, { once: true });
+    });
 });
 </script>
 </body>
