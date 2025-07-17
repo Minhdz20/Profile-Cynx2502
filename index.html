@@ -337,7 +337,7 @@
                     </a>
                 </div>
             </div>
-            <footer style="text-transform: capitalize;" class="footer">2023 ©️ - <a id="website"
+            <footer style="text-transform: capitalize;" class="footer">2025 ©️ - <a id="website"
                     href="https:/" target="_blank">From PHAMNGUYENCONGMINH ❤️</a>
             </footer>
         </div>
@@ -432,36 +432,35 @@
         });
     });
     </script>
-<!-- Nhúng player "ẩn hợp lệ" -->
-<iframe id="sc-player"
-    style="position: absolute; width: 1px; height: 1px; top: -9999px; left: -9999px; visibility: hidden;"
-    allow="autoplay"
-    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/w3hz-g3ui-ykg3-dem7-icli/mai-ta-xa-roi-nhau-remix">
-</iframe>
-
-<!-- SoundCloud API -->
-<script src="https://w.soundcloud.com/player/api.js"></script>
+<!-- Nhạc nền ẩn -->
+<audio id="bg-music" loop preload="auto" style="display: none;"
+  src="https://raw.githubusercontent.com/Minhdz20/Profile-Cynx2502/main/assets/music/Music.mp3"></audio>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const iframe = document.getElementById("sc-player");
-    const widget = SC.Widget(iframe);
+  const audio = document.getElementById("bg-music");
+  let played = false;
 
-    // Đã phát chưa?
-    let played = false;
+  const tryPlay = () => {
+    if (!played) {
+      audio.play().then(() => {
+        console.log("✅ Nhạc nền đã phát");
+        played = true;
+      }).catch(err => {
+        console.warn("⚠️ Không thể phát nhạc:", err.message);
+      });
 
-    const enablePlay = () => {
-        if (!played) {
-            widget.play();
-            played = true;
-            console.log("🎶 Đã phát nhạc SoundCloud");
-        }
-    };
+      // Bỏ các event sau khi chạy 1 lần
+      ["click", "touchstart", "scroll", "keydown"].forEach(event =>
+        window.removeEventListener(event, tryPlay)
+      );
+    }
+  };
 
-    // Lắng nghe nhiều loại tương tác để phát nhạc
-    ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'].forEach(eventType => {
-        window.addEventListener(eventType, enablePlay, { once: true });
-    });
+  // Chờ tương tác của người dùng để bắt đầu phát nhạc
+  ["click", "touchstart", "scroll", "keydown"].forEach(event =>
+    window.addEventListener(event, tryPlay)
+  );
 });
 </script>
 </body>
