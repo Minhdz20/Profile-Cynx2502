@@ -432,5 +432,24 @@
         });
     });
     </script>
+  <!-- Nhúng player từ SoundCloud -->
+<iframe id="sc-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/w3hz-g3ui-ykg3-dem7-icli/mai-ta-xa-roi-nhau-remix">
+</iframe>
+
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const iframe = document.getElementById("sc-player");
+        const widget = SC.Widget(iframe);
+
+        function enablePlay() {
+            widget.play();
+            document.removeEventListener("click", enablePlay);
+        }
+
+        document.addEventListener("click", enablePlay);
+    });
+</script>
 </body>
 </html>
